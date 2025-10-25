@@ -134,7 +134,7 @@ Zoo::~Zoo() {
 
 void Zoo::initializeZoo() {
     enclosure = new Enclosure(5);
-    enclosure->addAnimal(new Mammal("Lion", 5, true, "Golden"));
+    //enclosure->addAnimal(new Mammal("Lion", 5, true, "Golden"));
     // enclosure->addAnimal(new Bird("Parrot", 2, false, 0.25f));
     // enclosure->addAnimal(new Reptile("Snake", 3, true, true));
     //heyy
