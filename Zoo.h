@@ -10,7 +10,11 @@ private:
     Visitor* visitor;
 
 public:
-   //continue defining zoo member functions
+    Zoo();
+    ~Zoo();
+
+    void initializeZoo();
+    void showZooStatus() const;
 };
 
 #endif
