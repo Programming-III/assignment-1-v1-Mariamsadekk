@@ -148,7 +148,7 @@ void Zoo::showZooStatus() const {
     cout << endl;
     //display all visitor information
     //inside showZoostatus
-    //visitor->displayInfo();
+    visitor->displayInfo();
 }
 
 // ------------------ Main ------------------
