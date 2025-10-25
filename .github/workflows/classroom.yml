@@ -66,8 +66,8 @@ jobs:
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: Mammal Display
-        setup-command: make clean && make
-        command: "./main mammal"
+        setup-command: g++ -std=c++11 -o main main.cpp
+        command: "./main "
         timeout: 10
         max-score: 5
     - name: Bird Display
@@ -75,8 +75,8 @@ jobs:
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: Bird Display
-        setup-command: make
-        command: "./main bird"
+        setup-command: g++ -std=c++11 -o main main.cpp
+        command: "./main "
         timeout: 10
         max-score: 5
     - name: Reptile Display
@@ -84,8 +84,8 @@ jobs:
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: Reptile Display
-        setup-command: make
-        command: "./main reptile"
+        setup-command: g++ -std=c++11 -o main main.cpp
+        command: "./main"
         timeout: 10
         max-score: 5
     - name: Autograding Reporter
