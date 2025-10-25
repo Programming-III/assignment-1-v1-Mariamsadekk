@@ -12,6 +12,7 @@ using namespace std;
 //here 
 Animal::Animal() : name("Unknown"), age(0), isHungry(true) {}
 Animal::Animal(string n, int a, bool h) : name(n), age(a), isHungry(h) {}
+//destructor
 Animal::~Animal() {}
 //set name
 void Animal::setName(string n) { name = n; }
