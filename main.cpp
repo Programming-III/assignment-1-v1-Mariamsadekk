@@ -146,6 +146,7 @@ void Zoo::initializeZoo() {
 void Zoo::showZooStatus() const {
     enclosure->displayAnimals();
     cout << endl;
+    //display all visitor information
     visitor->displayInfo();
 }
 
