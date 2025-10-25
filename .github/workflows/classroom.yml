@@ -97,6 +97,15 @@ jobs:
         command: "./main"
         timeout: 10
         max-score: 5
+    - name: Visitor Display
+      id: visitor-display
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Visitor Display
+        setup-command: g++ -std=c++11 -o main main.cpp
+        command: './main | grep -q "Visitor Info: '
+        timeout: 10
+        max-score: 5
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
@@ -109,5 +118,6 @@ jobs:
         BIRD-DISPLAY_RESULTS: "${{steps.bird-display.outputs.result}}"
         REPTILE-DISPLAY_RESULTS: "${{steps.reptile-display.outputs.result}}"
         ENCLOSURE-ADD-ANIMAL_RESULTS: "${{steps.enclosure-add-animal.outputs.result}}"
+        VISITOR-DISPLAY_RESULTS: "${{steps.visitor-display.outputs.result}}"
       with:
-        runners: destructor-declaration,implementation-file-check,private-members-check,all-classes-declared,constructor-declaration,mammal-display,bird-display,reptile-display,enclosure-add-animal
+        runners: destructor-declaration,implementation-file-check,private-members-check,all-classes-declared,constructor-declaration,mammal-display,bird-display,reptile-display,enclosure-add-animal,visitor-display
