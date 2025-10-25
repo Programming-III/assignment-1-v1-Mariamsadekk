@@ -2,149 +2,153 @@
 #include "Enclosure.h"
 #include "Visitor.h"
 #include "Zoo.h"
-#include <iostream>
+
 using namespace std;
 
-// TODO: Implement all class methods here
+// ------------------ Animal Implementations ------------------
 
-// ============== ANIMAL CLASS IMPLEMENTATION ==============
-Animal::Animal() {
-    // TODO: Initialize attributes with default values
+Animal::Animal() : name("Unknown"), age(0), isHungry(true) {}
+Animal::Animal(string n, int a, bool h) : name(n), age(a), isHungry(h) {}
+Animal::~Animal() {}
+
+void Animal::setName(string n) { name = n; }
+string Animal::getName() const { return name; }
+
+void Animal::setAge(int a) { age = a; }
+int Animal::getAge() const { return age; }
+
+void Animal::setIsHungry(bool h) { isHungry = h; }
+bool Animal::getIsHungry() const { return isHungry; }
+
+void Animal::display() const {
+    cout << "- " << name << " (Age: " << age << ", "
+         << (isHungry ? "Hungry" : "Not Hungry") << ")" << endl;
 }
 
-Animal::Animal(string name, int age, bool isHungry) {
-    // TODO: Initialize attributes with provided values
+void Animal::feed() { isHungry = false; }
+
+// Mammal
+Mammal::Mammal() : Animal(), furColor("Unknown") {}
+Mammal::Mammal(string n, int a, bool h, string color)
+    : Animal(n, a, h), furColor(color) {}
+Mammal::~Mammal() {}
+
+void Mammal::setFurColor(string color) { furColor = color; }
+string Mammal::getFurColor() const { return furColor; }
+
+void Mammal::display() const {
+    cout << "- " << getName() << " (Age: " << getAge()
+         << ", Fur Color: " << furColor << ", "
+         << (getIsHungry() ? "Hungry" : "Not Hungry") << ")" << endl;
 }
 
-Animal::~Animal() {
-    // TODO: Cleanup if needed
+// Bird
+Bird::Bird() : Animal(), wingSpan(0.0f) {}
+Bird::Bird(string n, int a, bool h, float span)
+    : Animal(n, a, h), wingSpan(span) {}
+Bird::~Bird() {}
+
+void Bird::setWingSpan(float span) { wingSpan = span; }
+float Bird::getWingSpan() const { return wingSpan; }
+
+void Bird::display() const {
+    cout << "- " << getName() << " (Age: " << getAge()
+         << ", Wing Span: " << wingSpan << "m, "
+         << (getIsHungry() ? "Hungry" : "Not Hungry") << ")" << endl;
 }
 
-void Animal::display(){
-    // TODO: Display animal info in format: "- Name (Age: X, Hungry/Not Hungry)"
+// Reptile
+Reptile::Reptile() : Animal(), isVenomous(false) {}
+Reptile::Reptile(string n, int a, bool h, bool venom)
+    : Animal(n, a, h), isVenomous(venom) {}
+Reptile::~Reptile() {}
+
+void Reptile::setIsVenomous(bool venom) { isVenomous = venom; }
+bool Reptile::getIsVenomous() const { return isVenomous; }
+
+void Reptile::display() const {
+    cout << "- " << getName() << " (Age: " << getAge()
+         << ", " << (isVenomous ? "Venomous" : "Non-Venomous")
+         << ", " << (getIsHungry() ? "Hungry" : "Not Hungry") << ")" << endl;
 }
 
-void Animal::feed() {
-    // TODO: Set isHungry to false
+// ------------------ Enclosure ------------------
+
+Enclosure::Enclosure(int cap) : capacity(cap), currentCount(0) {
+    animals = new Animal*[capacity];
 }
-
-// TODO: Implement all getter and setter methods
-string Animal::getName() {
-    // TODO: Return name
-    return "";
-}
-
-void Animal::setName(string name) {
-    // TODO: Set name
-}
-
-// TODO: Implement remaining Animal getters/setters
-// ... (age, isHungry getters/setters)
-
-// ============== MAMMAL CLASS IMPLEMENTATION ==============
-Mammal::Mammal() : Animal() {
-    // TODO: Initialize furColor with default value
-}
-
-Mammal::Mammal(string name, int age, bool isHungry, string furColor)
-    : Animal(name, age, isHungry) {
-    // TODO: Initialize furColor
-}
-
-Mammal::~Mammal() {
-    // TODO: Cleanup if needed
-}
-
-void Mammal::display()  {
-    // TODO: Call parent display() then add fur color info
-}
-
-// TODO: Implement Mammal getters/setters for furColor
-
-// ============== BIRD CLASS IMPLEMENTATION ==============
-// TODO: Implement all Bird methods similar to Mammal
-// Remember to show wing span in display()
-
-// ============== REPTILE CLASS IMPLEMENTATION ==============
-// TODO: Implement all Reptile methods similar to Mammal
-// Remember to show venomous status in display()
-
-// ============== ENCLOSURE CLASS IMPLEMENTATION ==============
-Enclosure::Enclosure() {
-    // TODO: Initialize with default capacity (e.g., 5)
-    // TODO: Create dynamic array of Animal pointers
-    // TODO: Initialize currentCount to 0
-}
-
-Enclosure::Enclosure(int capacity) {
-    // TODO: Initialize with provided capacity
-    // TODO: Create dynamic array of Animal pointers
-    // TODO: Initialize currentCount to 0
-}
-
 Enclosure::~Enclosure() {
-    // TODO: Delete all animals in the array
-    // TODO: Delete the array itself
+    for (int i = 0; i < currentCount; i++)
+        delete animals[i];
+    delete[] animals;
 }
 
-bool Enclosure::addAnimal(Animal* animal) {
-    // TODO: Check if there's space and animal is not null
-    // TODO: Add animal to array if possible
-    // TODO: Return true if successful, false otherwise
+bool Enclosure::addAnimal(Animal* a) {
+    if (currentCount < capacity) {
+        animals[currentCount++] = a;
+        return true;
+    }
     return false;
 }
 
-void Enclosure::displayAnimals()   {
-    // TODO: Loop through all animals and call their display() method
+void Enclosure::displayAnimals() const {
+    cout << "Enclosure Animals:" << endl;
+    for (int i = 0; i < currentCount; i++) {
+        animals[i]->display();
+    }
 }
 
-// TODO: Implement Enclosure getters/setters
+// ------------------ Visitor ------------------
 
-// ============== VISITOR CLASS IMPLEMENTATION ==============
-// TODO: Implement all Visitor methods
-// displayInfo() should show: "Name: [name]\nTickets Bought: [tickets]"
+Visitor::Visitor() : visitorName("Unknown"), ticketsBought(0) {}
+Visitor::Visitor(string name, int tickets) : visitorName(name), ticketsBought(tickets) {}
+Visitor::~Visitor() {}
 
-// ============== ZOO CLASS IMPLEMENTATION ==============
+void Visitor::setVisitorName(string name) { visitorName = name; }
+string Visitor::getVisitorName() const { return visitorName; }
+
+void Visitor::setTicketsBought(int t) { ticketsBought = t; }
+int Visitor::getTicketsBought() const { return ticketsBought; }
+
+void Visitor::displayInfo() const {
+    cout << "Visitor Info:" << endl;
+    cout << "Name: " << visitorName << endl;
+    cout << "Tickets Bought: " << ticketsBought << endl;
+}
+
+// ------------------ Zoo ------------------
+
 Zoo::Zoo() {
-    // TODO: Initialize with default array sizes
-    // TODO: Create dynamic arrays for enclosures and visitors
-}
-
-Zoo::Zoo(int numEnclosures, int numVisitors) {
-    // TODO: Initialize with provided sizes
-    // TODO: Create dynamic arrays
+    enclosure = nullptr;
+    visitor = nullptr;
 }
 
 Zoo::~Zoo() {
-    // TODO: Delete all enclosures and visitors
-    // TODO: Delete the arrays
+    delete enclosure;
+    delete visitor;
 }
 
 void Zoo::initializeZoo() {
-    // TODO: Print "Zoo initialized successfully."
-    // TODO: Create at least one enclosure with animals:
-    //       - Lion (Age: 5, Hungry, Golden fur)  
-    //       - Parrot (Age: 2, Not Hungry, 0.5m wing span)
-    //       - Snake (Age: 3, Hungry, Venomous)
-    // TODO: Create at least one visitor: Sarah Ali with 3 tickets
+    enclosure = new Enclosure(5);
+    enclosure->addAnimal(new Mammal("Lion", 5, true, "Golden"));
+    enclosure->addAnimal(new Bird("Parrot", 2, false, 0.25f));
+    enclosure->addAnimal(new Reptile("Snake", 3, true, true));
+
+    visitor = new Visitor("Sarah Ali", 3);
+    cout << "Zoo initialized successfully.\n" << endl;
 }
 
-void Zoo::showZooStatus()   {
-    // TODO: Display all enclosures and their animals
-    // TODO: Display all visitors
-    // Format should match the expected output in the assignment
+void Zoo::showZooStatus() const {
+    enclosure->displayAnimals();
+    cout << endl;
+    visitor->displayInfo();
 }
 
-// TODO: Implement remaining Zoo methods
+// ------------------ Main ------------------
 
-// ============== MAIN FUNCTION ==============
 int main() {
-    // TODO: Create a Zoo object
-    // TODO: Initialize the zoo
-    // TODO: Show the zoo status
-    // TODO: Clean up memory
-    
-    cout << "Zoo Management System - Milestone 01" << endl;
-    
+    Zoo myZoo;
+    myZoo.initializeZoo();
+    myZoo.showZooStatus();
     return 0;
 }
