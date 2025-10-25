@@ -93,7 +93,7 @@ bool Enclosure::addAnimal(Animal* a) {
     }
     return false;
 }
-
+//display all animals
 void Enclosure::displayAnimals() const {
     cout << "Enclosure Animals:" << endl;
     for (int i = 0; i < currentCount; i++) {
