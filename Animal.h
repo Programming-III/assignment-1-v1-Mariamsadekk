@@ -36,19 +36,6 @@ public:
 
 
 // Reptile subclass
-class Reptile : public Animal {
-private:
-    bool isVenomous;
 
-public:
-    Reptile();
-    Reptile(string n, int a, bool h, bool venom);
-    ~Reptile();
-
-    void setIsVenomous(bool venom);
-    bool getIsVenomous() const;
-
-    void display() const override;
-};
 
 #endif
