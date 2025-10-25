@@ -88,6 +88,15 @@ jobs:
         command: './main | grep -q "Snake (Age: 3" '
         timeout: 10
         max-score: 5
+    - name: Enclosure Add Animal
+      id: enclosure-add-animal
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Enclosure Add Animal
+        setup-command: g++ -std=c++11 main.cpp -o main
+        command: "./main"
+        timeout: 10
+        max-score: 5
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
@@ -99,5 +108,6 @@ jobs:
         MAMMAL-DISPLAY_RESULTS: "${{steps.mammal-display.outputs.result}}"
         BIRD-DISPLAY_RESULTS: "${{steps.bird-display.outputs.result}}"
         REPTILE-DISPLAY_RESULTS: "${{steps.reptile-display.outputs.result}}"
+        ENCLOSURE-ADD-ANIMAL_RESULTS: "${{steps.enclosure-add-animal.outputs.result}}"
       with:
-        runners: destructor-declaration,implementation-file-check,private-members-check,all-classes-declared,constructor-declaration,mammal-display,bird-display,reptile-display
+        runners: destructor-declaration,implementation-file-check,private-members-check,all-classes-declared,constructor-declaration,mammal-display,bird-display,reptile-display,enclosure-add-animal
