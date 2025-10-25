@@ -13,7 +13,7 @@ using namespace std;
 Animal::Animal() : name("Unknown"), age(0), isHungry(true) {}
 Animal::Animal(string n, int a, bool h) : name(n), age(a), isHungry(h) {}
 Animal::~Animal() {}
-
+//set name
 void Animal::setName(string n) { name = n; }
 string Animal::getName() const { return name; }
 
