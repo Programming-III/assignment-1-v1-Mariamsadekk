@@ -10,7 +10,7 @@ private:
     string name;
     int age;
     bool isHungry;
-
+//edit
 public:
     Animal();
     Animal(string n, int a, bool h);
